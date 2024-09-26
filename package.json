@@ -1,0 +1,21 @@
+{
+  "name": "autobridge-wallet",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "npm@10.8.1",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "contracts",
+    "infra",
+    "scripts"
+  ],
+  "scripts": {
+    "lint": "echo \"lint script not yet configured\"",
+    "test": "npm run test --workspaces --if-present"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.5",
+    "typescript": "^5.9.2"
+  }
+}
