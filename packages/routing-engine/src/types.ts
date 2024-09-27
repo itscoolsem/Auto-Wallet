@@ -11,4 +11,6 @@ export interface QuoteContext {
   now?: number;
   preferOFT?: boolean;
   bridgeToken?: string;
+  maxSlippageBps?: number;
+  priorityMode?: 'cost' | 'speed' | 'balanced';
 }
