@@ -6,3 +6,4 @@ export * from './utils.js';
 export * from './retry.js';
 export * from './cache.js';
 export * from './validation.js';
+export * from './errors.js';
