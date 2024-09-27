@@ -47,3 +47,15 @@ export interface BundlerGasEstimates {
   verificationGasLimit: bigint;
   preVerificationGas: bigint;
 }
+
+export interface PaymasterData {
+  paymaster: Address;
+  paymasterVerificationGasLimit: bigint;
+  paymasterPostOpGasLimit: bigint;
+  paymasterData: Hex;
+}
+
+export interface GasPrice {
+  maxFeePerGas: bigint;
+  maxPriorityFeePerGas: bigint;
+}
