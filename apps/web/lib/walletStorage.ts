@@ -77,7 +77,7 @@ async function deriveEncryptionKey(passwordKey: CryptoKey, salt: Uint8Array): Pr
     {
       name: 'PBKDF2',
       salt: saltBuffer,
-      iterations: 120_000,
+      iterations: 200_000, // Increased from 120k for better security
       hash: 'SHA-256',
     },
     passwordKey,
