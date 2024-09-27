@@ -8,6 +8,7 @@ export interface HttpClient {
 export interface SubmitOptions {
   dryRun?: boolean;
   signal?: AbortSignal;
+  timeout?: number;
 }
 
 export class BundlerClient {
@@ -36,17 +37,25 @@ export class BundlerClient {
       params: [serialized, entryPoint],
     };
 
-    const response = await this.http(this.config.bundlerUrl, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify(body),
-      signal: options.signal,
-    });
+    const timeoutMs = options.timeout ?? 30000; // 30 second default
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
-    const json = (await response.json()) as BundlerResponse<string>;
-    return json;
+    try {
+      const response = await this.http(this.config.bundlerUrl, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(body),
+        signal: options.signal ?? controller.signal,
+      });
+
+      const json = (await response.json()) as BundlerResponse<string>;
+      return json;
+    } finally {
+      clearTimeout(timeoutId);
+    }
   }
 
   async estimateUserOperationGas(userOp: UserOperation, entryPoint: string): Promise<BundlerResponse<BundlerGasEstimates>> {
