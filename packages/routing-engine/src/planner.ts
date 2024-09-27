@@ -10,6 +10,10 @@ function assertAmountString(amount: string): void {
   if (!/^[0-9]+(\.[0-9]+)?$/.test(amount)) {
     throw new Error(`Invalid amount: ${amount}`);
   }
+  const numericValue = parseFloat(amount);
+  if (numericValue <= 0) {
+    throw new Error(`Amount must be positive: ${amount}`);
+  }
 }
 
 function pow10(decimals: number): bigint {
