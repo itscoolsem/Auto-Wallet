@@ -7,6 +7,8 @@ export interface BundlerConfig {
   paymasterAddress: string;
   entryPoint: string;
   walletExecutorAddress: string;
+  timeout?: number;
+  retries?: number;
 }
 
 export function resolveBundlerConfig(chainSlug: string, env = process.env): BundlerConfig {
