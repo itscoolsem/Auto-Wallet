@@ -16,6 +16,9 @@ export interface ActivityItem {
   description: string;
   timestamp: number;
   valueUsd: number;
+  txHash?: string;
+  fromChain?: string;
+  toChain?: string;
 }
 
 export interface SmartAccountState {
