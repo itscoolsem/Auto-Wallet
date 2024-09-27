@@ -14,6 +14,9 @@ function assertAmountString(amount: string): void {
   if (numericValue <= 0) {
     throw new Error(`Amount must be positive: ${amount}`);
   }
+  if (numericValue > 1e20) {
+    throw new Error(`Amount too large: ${amount}`);
+  }
 }
 
 function pow10(decimals: number): bigint {
