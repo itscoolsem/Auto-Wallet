@@ -287,7 +287,7 @@ export async function ensureWalletExecutorConfig(
 export async function getEthBalance(address: Address): Promise<string> {
   try {
     const balance = await publicClient.getBalance({ address });
-    return (Number(balance) / 1e18).toFixed(4);
+    return (Number(balance) / 1e18).toFixed(6);
   } catch (error) {
     console.error('ETH balance check failed:', error);
     return '0';
