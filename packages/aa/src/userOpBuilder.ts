@@ -19,6 +19,7 @@ const userOpRequestSchema = z.object({
 const DEFAULT_BIGINT = 0n;
 const DEFAULT_CALL_GAS = 250000n;
 const DEFAULT_VERIFICATION_GAS = 150000n;
+const DEFAULT_PRE_VERIFICATION_GAS = 21000n; // Base transaction cost
 const DEFAULT_MAX_FEE = 1_000_000_000n; // 1 gwei placeholder
 const EMPTY_HEX: Hex = '0x';
 
@@ -33,7 +34,7 @@ export function buildUserOperation(request: UserOperationRequest): UserOperation
     callData: parsed.callData as Hex,
     callGasLimit: overrides.callGasLimit ?? DEFAULT_CALL_GAS,
     verificationGasLimit: overrides.verificationGasLimit ?? DEFAULT_VERIFICATION_GAS,
-    preVerificationGas: overrides.preVerificationGas ?? DEFAULT_BIGINT,
+    preVerificationGas: overrides.preVerificationGas ?? DEFAULT_PRE_VERIFICATION_GAS,
     maxFeePerGas: overrides.maxFeePerGas ?? DEFAULT_MAX_FEE,
     maxPriorityFeePerGas: overrides.maxPriorityFeePerGas ?? DEFAULT_MAX_FEE,
     paymasterAndData: (overrides.paymasterAndData ?? EMPTY_HEX) as Hex,
