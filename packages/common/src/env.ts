@@ -50,8 +50,8 @@ export function requireInteger(
 ): number {
   const raw = requireEnv(name, env);
   const parsed = Number(raw);
-  if (!Number.isInteger(parsed)) {
-    throw new Error(`Environment variable ${name} must be an integer`);
+  if (!Number.isInteger(parsed) || Number.isNaN(parsed)) {
+    throw new Error(`Environment variable ${name} must be a valid integer, got: ${raw}`);
   }
   if (options.min != null && parsed < options.min) {
     throw new Error(`Environment variable ${name} must be >= ${options.min}`);
