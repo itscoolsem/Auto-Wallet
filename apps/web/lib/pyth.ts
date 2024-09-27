@@ -8,9 +8,18 @@ export interface PythPriceData {
 }
 
 const DEFAULT_PYTH_ENDPOINT = process.env.NEXT_PUBLIC_PYTH_ENDPOINT ?? process.env.PYTH_ENDPOINT ?? 'https://hermes.pyth.network';
+const PRICE_CACHE_TTL = 30000; // 30 seconds
+const priceCache = new Map<string, { data: PythPriceData; expires: number }>();
 
 export async function fetchPythPrice(feedId: string): Promise<PythPriceData | null> {
   if (!feedId) return null;
+
+  // Check cache first
+  const cached = priceCache.get(feedId);
+  if (cached && Date.now() < cached.expires) {
+    return cached.data;
+  }
+
   try {
     const url = `${DEFAULT_PYTH_ENDPOINT}/api/latest_price_feeds?ids[]=${feedId}`;
     const response = await fetch(url, {
@@ -32,12 +41,20 @@ export async function fetchPythPrice(feedId: string): Promise<PythPriceData | nu
     const scale = Number.isFinite(expo) ? Math.pow(10, expo) : 1;
     const price = Number.isFinite(rawPrice) ? rawPrice * scale : 0;
     const confidence = Number.isFinite(rawConfidence) ? rawConfidence * Math.abs(scale) : 0;
-    return {
+    const result = {
       id: feedId,
       price: Number.isFinite(price) ? price : 0,
       confidence: Number.isFinite(confidence) ? confidence : 0,
       publishTime: Number(entry.price.publishTime ?? entry.publishTime ?? Date.now() / 1000),
     };
+
+    // Cache the result
+    priceCache.set(feedId, {
+      data: result,
+      expires: Date.now() + PRICE_CACHE_TTL
+    });
+
+    return result;
   } catch (error) {
     console.error('Failed to fetch Pyth price', { feedId, error });
     return null;
