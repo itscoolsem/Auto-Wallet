@@ -65,4 +65,16 @@ pids/
 *.pid.lock
 
 # Coverage directory used by tools like istanbul
-coverage/node_modules/
+coverage/
+lcov.info
+*.lcov
+
+# Testing
+__tests__/__snapshots__/
+test-results/
+playwright-report/
+
+# Temporary files
+*.tmp
+*.temp
+.temp/
