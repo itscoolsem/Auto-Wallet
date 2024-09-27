@@ -13,8 +13,12 @@
   "scripts": {
     "lint": "echo \"lint script not yet configured\"",
     "test": "npm run test --workspaces --if-present",
+    "test:watch": "npm run test:watch --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
     "build:chains": "npm run build --workspace @autobridge/chains",
-    "dev": "npm run dev --workspace @autobridge/web"
+    "dev": "npm run dev --workspace @autobridge/web",
+    "clean": "npm run clean --workspaces --if-present",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@types/node": "^20.16.5",
