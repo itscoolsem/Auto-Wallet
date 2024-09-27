@@ -30,3 +30,16 @@ export async function resolveEnsName(name: string): Promise<string | null> {
     return null;
   }
 }
+
+export async function reverseResolveEns(address: string): Promise<string | null> {
+  if (!address || !address.match(/^0x[a-fA-F0-9]{40}$/)) return null;
+  try {
+    const ensName = await getEnsClient().getEnsName({
+      address: address as `0x${string}`
+    });
+    return ensName ?? null;
+  } catch (error) {
+    console.error('ENS reverse resolution failed', { address, error });
+    return null;
+  }
+}
