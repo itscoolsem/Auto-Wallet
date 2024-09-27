@@ -30,6 +30,14 @@ describe('buildMockRoutePlan', () => {
     expect(() => buildMockRoutePlan({ ...request, amountIn: 'abc' })).toThrowError(/Invalid amount/);
   });
 
+  it('handles zero amount gracefully', () => {
+    expect(() => buildMockRoutePlan({ ...request, amountIn: '0' })).toThrowError(/Amount must be positive/);
+  });
+
+  it('handles negative amount gracefully', () => {
+    expect(() => buildMockRoutePlan({ ...request, amountIn: '-1' })).toThrowError(/Amount must be positive/);
+  });
+
   it('converts between different token decimals', () => {
     const usdcRequest = {
       ...request,
