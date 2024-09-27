@@ -16,7 +16,12 @@ export function buildServer(): FastifyInstance {
     methods: ['GET', 'POST', 'OPTIONS'],
   });
 
-  fastify.get('/health', async () => ({ status: 'ok', time: Date.now() }));
+  fastify.get('/health', async () => ({
+    status: 'ok',
+    time: Date.now(),
+    version: '1.0.0',
+    uptime: process.uptime()
+  }));
 
   fastify.get('/env/check', async () => {
     try {
