@@ -13,7 +13,13 @@ export async function fetchPythPrice(feedId: string): Promise<PythPriceData | nu
   if (!feedId) return null;
   try {
     const url = `${DEFAULT_PYTH_ENDPOINT}/api/latest_price_feeds?ids[]=${feedId}`;
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: {
+        'Accept': 'application/json',
+        'User-Agent': 'AutoBridge/1.0'
+      },
+      signal: AbortSignal.timeout(10000) // 10 second timeout
+    });
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}`);
     }
