@@ -59,6 +59,7 @@ export class AutoBridgeWalletSDK {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
+        'x-client': 'autobridge-sdk',
       },
       body: JSON.stringify({
         srcChain: params.routeOverride?.srcChain ?? params.sourceChain,
@@ -68,6 +69,7 @@ export class AutoBridgeWalletSDK {
         amountIn: params.amount,
         recipient: params.recipient,
       }),
+      signal: AbortSignal.timeout(15000), // 15 second timeout
     });
 
     if (!response.ok) {
