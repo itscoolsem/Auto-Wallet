@@ -12,24 +12,29 @@ function validateChain(slug: string, chain: ChainConfig): string[] {
     errors.push(`${slug}: chainId must be a positive integer`);
   }
 
-  if (!chain.rpcEnv || typeof chain.rpcEnv !== 'string') {
+  if (!chain.rpcEnv || typeof chain.rpcEnv !== 'string' || chain.rpcEnv.trim() === '') {
     errors.push(`${slug}: rpcEnv must be a non-empty string`);
   }
 
-  if (!chain.erc4337.bundlerEnv) {
+  if (!chain.erc4337.bundlerEnv || chain.erc4337.bundlerEnv.trim() === '') {
     errors.push(`${slug}: erc4337.bundlerEnv must be set`);
   }
 
-  if (!chain.erc4337.paymasterEnv) {
+  if (!chain.erc4337.paymasterEnv || chain.erc4337.paymasterEnv.trim() === '') {
     errors.push(`${slug}: erc4337.paymasterEnv must be set`);
   }
 
-  if (!chain.layerZero.endpointEnv) {
+  if (!chain.layerZero.endpointEnv || chain.layerZero.endpointEnv.trim() === '') {
     errors.push(`${slug}: layerZero.endpointEnv must be set`);
   }
 
   if (chain.nativeCurrency.decimals <= 0 || chain.nativeCurrency.decimals > 36) {
     errors.push(`${slug}: nativeCurrency.decimals must be between 1 and 36`);
+  }
+
+  // Validate slug format
+  if (!/^[a-z0-9-]+$/.test(slug)) {
+    errors.push(`${slug}: chain slug must contain only lowercase letters, numbers, and hyphens`);
   }
 
   return errors;
