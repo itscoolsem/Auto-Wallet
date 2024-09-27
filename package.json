@@ -18,7 +18,9 @@
     "build:chains": "npm run build --workspace @autobridge/chains",
     "dev": "npm run dev --workspace @autobridge/web",
     "clean": "npm run clean --workspaces --if-present",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check-env": "node scripts/check-env.js",
+    "dev-tools": "node scripts/dev-tools.js"
   },
   "devDependencies": {
     "@types/node": "^20.16.5",
