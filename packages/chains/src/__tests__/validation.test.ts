@@ -10,7 +10,12 @@ const makeInvalidRegistry = () => ({
       name: 'Invalid',
       rpcEnv: '',
       nativeCurrency: { symbol: 'ETH', decimals: 0 },
-      erc4337: { bundlerEnv: '', paymasterEnv: '' },
+      erc4337: {
+        bundlerEnv: '',
+        paymasterEnv: '',
+        walletExecutorEnv: '',
+        entryPoint: ''
+      },
       layerZero: { endpointEnv: '' },
     },
   },
@@ -41,6 +46,8 @@ describe('validateRegistry', () => {
         "invalid: rpcEnv must be a non-empty string",
         "invalid: erc4337.bundlerEnv must be set",
         "invalid: erc4337.paymasterEnv must be set",
+        "invalid: erc4337.walletExecutorEnv must be set",
+        "invalid: erc4337.entryPoint must be set",
         "invalid: layerZero.endpointEnv must be set",
         "invalid: nativeCurrency.decimals must be between 1 and 36",
         "invalid.BAD: decimals must be between 0 and 36",

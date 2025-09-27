@@ -24,6 +24,14 @@ function validateChain(slug: string, chain: ChainConfig): string[] {
     errors.push(`${slug}: erc4337.paymasterEnv must be set`);
   }
 
+  if (!chain.erc4337.walletExecutorEnv || chain.erc4337.walletExecutorEnv.trim() === '') {
+    errors.push(`${slug}: erc4337.walletExecutorEnv must be set`);
+  }
+
+  if (!chain.erc4337.entryPoint || chain.erc4337.entryPoint.trim() === '') {
+    errors.push(`${slug}: erc4337.entryPoint must be set`);
+  }
+
   if (!chain.layerZero.endpointEnv || chain.layerZero.endpointEnv.trim() === '') {
     errors.push(`${slug}: layerZero.endpointEnv must be set`);
   }
