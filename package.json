@@ -13,22 +13,11 @@
   "scripts": {
     "lint": "echo \"lint script not yet configured\"",
     "test": "npm run test --workspaces --if-present",
-    "test:watch": "npm run test:watch --workspaces --if-present",
-    "build": "npm run build --workspaces --if-present",
-    "build:chains": "npm run build --workspace @autobridge/chains",
-    "dev": "npm run dev --workspace @autobridge/web",
-    "clean": "npm run clean --workspaces --if-present",
-    "typecheck": "tsc --noEmit",
-    "check-env": "node scripts/check-env.js",
-    "dev-tools": "node scripts/dev-tools.js"
+    "build:chains": "npm run build --workspace @autobridge/chains"
   },
   "devDependencies": {
     "@types/node": "^20.16.5",
     "typescript": "^5.9.2",
     "vitest": "^1.6.0"
-  },
-  "engines": {
-    "node": ">=20.16.0",
-    "npm": ">=10.0.0"
   }
 }
