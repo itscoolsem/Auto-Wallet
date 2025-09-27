@@ -65,4 +65,4 @@ pids/
 *.pid.lock
 
 # Coverage directory used by tools like istanbul
-coverage/
+coverage/node_modules/
