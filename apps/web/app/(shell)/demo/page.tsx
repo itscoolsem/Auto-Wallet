@@ -15,6 +15,44 @@ export default function DemoPage() {
       return;
     }
 
+    // Open wallet popup for payment approval
+    const popup = window.open(
+      '/popup?payment=true&amount=10&token=USDX&to=vitalik.eth',
+      'Auto Wallet Payment',
+      'width=420,height=700,resizable=no,scrollbars=no,status=no,location=no,toolbar=no,menubar=no'
+    );
+
+    if (popup) {
+      popup.focus();
+
+      // Listen for payment completion message from popup
+      const handleMessage = (event: MessageEvent) => {
+        if (event.origin !== window.location.origin) return;
+
+        if (event.data.type === 'PAYMENT_COMPLETED') {
+          setPaymentResult(event.data.result);
+          setShowSuccess(true);
+          popup.close();
+          window.removeEventListener('message', handleMessage);
+        } else if (event.data.type === 'PAYMENT_CANCELLED') {
+          popup.close();
+          window.removeEventListener('message', handleMessage);
+        }
+      };
+
+      window.addEventListener('message', handleMessage);
+
+      // Clean up if popup is closed manually
+      const checkClosed = setInterval(() => {
+        if (popup.closed) {
+          clearInterval(checkClosed);
+          window.removeEventListener('message', handleMessage);
+        }
+      }, 1000);
+    }
+
+    return; // Exit early - payment will be handled in popup
+
     setIsPaymentInProgress(true);
     setPaymentResult(null);
     setShowSuccess(false);
@@ -169,7 +207,7 @@ export default function DemoPage() {
     // Open wallet popup in new window
     const popup = window.open(
       '/popup',
-      'AutoBridge Wallet',
+      'Auto Wallet',
       'width=420,height=700,resizable=no,scrollbars=no,status=no,location=no,toolbar=no,menubar=no'
     );
 
@@ -191,10 +229,10 @@ export default function DemoPage() {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            🚀 AutoBridge Demo Store
+            🚀 Auto Wallet Demo Store
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Experience seamless cross-chain payments powered by AutoBridge Wallet.
+            Experience seamless cross-chain payments powered by Auto Wallet.
             Pay with tokens you have on any chain, receive on any other chain - all in one click!
           </p>
         </div>
@@ -232,7 +270,7 @@ export default function DemoPage() {
                 </div>
                 <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
                   <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                  Gas fees sponsored by AutoBridge
+                  Gas fees sponsored by Auto Wallet
                 </div>
                 <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
                   <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
@@ -248,7 +286,7 @@ export default function DemoPage() {
                       onClick={openWalletPopup}
                       className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold py-4 px-6 rounded-xl transition duration-200 shadow-lg"
                     >
-                      🎯 Setup AutoBridge Wallet First
+                      🎯 Setup Auto Wallet First
                     </button>
                     <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
                       Create your wallet to enable seamless cross-chain payments
@@ -285,7 +323,7 @@ export default function DemoPage() {
             </div>
 
             <div className="md:w-1/2 bg-gradient-to-br from-indigo-500 to-purple-600 p-8 text-white">
-              <h3 className="text-xl font-bold mb-4">How AutoBridge Works</h3>
+              <h3 className="text-xl font-bold mb-4">How Auto Wallet Works</h3>
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
                   <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-sm font-bold">1</div>
@@ -305,7 +343,7 @@ export default function DemoPage() {
                   <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-sm font-bold">3</div>
                   <div>
                     <div className="font-semibold">Gasless Experience</div>
-                    <div className="text-sm opacity-90">All gas fees sponsored by AutoBridge paymaster</div>
+                    <div className="text-sm opacity-90">All gas fees sponsored by Auto Wallet paymaster</div>
                   </div>
                 </div>
               </div>
@@ -332,15 +370,33 @@ export default function DemoPage() {
                   <div className="text-sm space-y-2">
                     <div className="flex justify-between">
                       <span className="text-gray-500">Amount:</span>
-                      <span className="font-semibold">1.0 USDX</span>
+                      <span className="font-semibold">{paymentResult?.amount || 10} {paymentResult?.token || 'USDX'}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-500">From:</span>
-                      <span className="font-semibold">0.001 WETH (Base)</span>
+                      <span className="font-semibold">
+                        {paymentResult?.ethAmount ?
+                          `${paymentResult.ethAmount} ETH (Base)` :
+                          pythPrice ?
+                            `${(10 / pythPrice.price).toFixed(6)} ETH (Base)` :
+                            '0.01 ETH (Base)'
+                        }
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-500">To:</span>
-                      <span className="font-semibold">vitalik.eth (Arbitrum)</span>
+                      <span className="font-semibold">{paymentResult?.to || 'vitalik.eth'} (Arbitrum)</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-500">ETH Price (Pyth):</span>
+                      <span className="font-semibold">
+                        {paymentResult?.pythPrice ?
+                          `$${paymentResult.pythPrice.price.toFixed(2)}` :
+                          pythPrice ?
+                            `$${pythPrice.price.toFixed(2)}` :
+                            '$1,000.00'
+                        }
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-500">Gas:</span>

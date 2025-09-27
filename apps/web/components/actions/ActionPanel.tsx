@@ -503,7 +503,7 @@ function SwapForm({ disabled }: { disabled: boolean }) {
       </PrimaryButton>
       <p className="text-xs text-slate-400">
         Swapping {tokenIn} → {tokenOut} on {mode === 'same' ? sourceChain : `${sourceChain} → ${destinationChain}`}.
-        Output lands in your AutoBridge smart account. Use the Bridge tab for delivery to another chain.
+        Output lands in your Auto Wallet smart account. Use the Bridge tab for delivery to another chain.
       </p>
       {smartAccount.owner ? (
         <p className="text-xs text-slate-500">

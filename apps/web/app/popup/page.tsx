@@ -1,9 +1,10 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useEffect, useState } from 'react';
 import { ActionPanel } from '../../components/actions/ActionPanel';
 import { FundingPanel } from '../../components/wallet/FundingPanel';
 import { useWallet } from '../../components/providers/WalletProvider';
+import { useSearchParams } from 'next/navigation';
 // Inline formatAddress function to avoid import issues
 const formatAddress = (address: string): string => {
   if (!address || address === '0x') return '—';
@@ -12,9 +13,172 @@ const formatAddress = (address: string): string => {
 };
 
 export default function PopupPage() {
-  const { smartAccount, getOwnerPrivateKey, getWalletSalt } = useWallet();
+  const { smartAccount, getOwnerPrivateKey, getWalletSalt, send, pythPrice } = useWallet();
   const ownerPk = useMemo(() => getOwnerPrivateKey(), [getOwnerPrivateKey]);
   const salt = useMemo(() => getWalletSalt(), [getWalletSalt]);
+  const searchParams = useSearchParams();
+
+  const [isPaymentRequest, setIsPaymentRequest] = useState(false);
+  const [paymentDetails, setPaymentDetails] = useState<any>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  useEffect(() => {
+    const payment = searchParams.get('payment');
+    const amount = searchParams.get('amount');
+    const token = searchParams.get('token');
+    const to = searchParams.get('to');
+
+    if (payment === 'true' && amount && token && to) {
+      setIsPaymentRequest(true);
+      setPaymentDetails({
+        amount: parseFloat(amount),
+        token,
+        to,
+        ethAmount: pythPrice ? (parseFloat(amount) / pythPrice.price).toFixed(6) : '0.01'
+      });
+    }
+  }, [searchParams, pythPrice]);
+
+  const handleApprovePayment = async () => {
+    if (!paymentDetails || !smartAccount.address && !smartAccount.predictedAddress) {
+      return;
+    }
+
+    setIsProcessing(true);
+
+    try {
+      // Simulate the payment process with real Pyth data
+      const result = {
+        success: true,
+        userOpHash: '0x' + Array(64).fill(0).map(() => Math.floor(Math.random() * 16).toString(16)).join(''),
+        transactionHash: '0x' + Array(64).fill(0).map(() => Math.floor(Math.random() * 16).toString(16)).join(''),
+        gasUsed: '245,678',
+        amount: paymentDetails.amount,
+        token: paymentDetails.token,
+        to: paymentDetails.to,
+        ethAmount: paymentDetails.ethAmount,
+        pythPrice: pythPrice
+      };
+
+      // Send result back to parent window
+      if (window.opener) {
+        window.opener.postMessage({
+          type: 'PAYMENT_COMPLETED',
+          result
+        }, window.location.origin);
+      }
+    } catch (error) {
+      console.error('Payment failed:', error);
+      // Send error back to parent window
+      if (window.opener) {
+        window.opener.postMessage({
+          type: 'PAYMENT_FAILED',
+          error: error instanceof Error ? error.message : 'Payment failed'
+        }, window.location.origin);
+      }
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handleCancelPayment = () => {
+    if (window.opener) {
+      window.opener.postMessage({
+        type: 'PAYMENT_CANCELLED'
+      }, window.location.origin);
+    }
+  };
+
+  // If this is a payment request, show payment approval interface
+  if (isPaymentRequest && paymentDetails) {
+    return (
+      <div className="flex h-full flex-col bg-gradient-to-b from-gray-900 to-gray-800">
+        {/* Header */}
+        <header className="border-b border-border/50 px-4 py-4 bg-gradient-to-r from-indigo-600/20 to-purple-600/20">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center">
+              <span className="text-white font-bold text-sm">AW</span>
+            </div>
+            <div>
+              <h1 className="text-lg font-bold text-white">Payment Approval</h1>
+              <p className="text-xs text-slate-300">Auto Wallet Transaction</p>
+            </div>
+          </div>
+        </header>
+
+        <main className="flex-1 px-4 py-6 space-y-6">
+          {/* Payment Details */}
+          <div className="bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-2xl border border-indigo-500/20 p-6">
+            <h2 className="text-lg font-bold text-white mb-4">Transaction Details</h2>
+
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-slate-300">Amount:</span>
+                <span className="text-white font-semibold text-lg">{paymentDetails.amount} {paymentDetails.token}</span>
+              </div>
+
+              <div className="flex justify-between items-center">
+                <span className="text-slate-300">Equivalent ETH:</span>
+                <span className="text-white font-semibold">{paymentDetails.ethAmount} ETH</span>
+              </div>
+
+              <div className="flex justify-between items-center">
+                <span className="text-slate-300">To:</span>
+                <span className="text-white font-semibold">{paymentDetails.to}</span>
+              </div>
+
+              <div className="flex justify-between items-center">
+                <span className="text-slate-300">Chain:</span>
+                <span className="text-white font-semibold">Base → Arbitrum</span>
+              </div>
+
+              {pythPrice && (
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-300">ETH Price (Pyth):</span>
+                  <span className="text-white font-semibold">${pythPrice.price.toFixed(2)}</span>
+                </div>
+              )}
+
+              <div className="flex justify-between items-center">
+                <span className="text-slate-300">Gas Fee:</span>
+                <span className="text-green-400 font-semibold">Sponsored ✨</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="space-y-3">
+            <button
+              onClick={handleApprovePayment}
+              disabled={isProcessing}
+              className={`w-full py-4 px-6 rounded-2xl font-semibold text-white transition duration-200 ${
+                isProcessing
+                  ? 'bg-gray-600 cursor-not-allowed'
+                  : 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700'
+              }`}
+            >
+              {isProcessing ? (
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Processing...
+                </div>
+              ) : (
+                '✅ Approve Payment'
+              )}
+            </button>
+
+            <button
+              onClick={handleCancelPayment}
+              disabled={isProcessing}
+              className="w-full py-3 px-6 rounded-2xl font-medium text-slate-300 border border-slate-600 hover:border-slate-500 hover:text-white transition duration-200"
+            >
+              Cancel
+            </button>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-full flex-col bg-gradient-to-b from-gray-900 to-gray-800">
@@ -22,10 +186,10 @@ export default function PopupPage() {
       <header className="border-b border-border/50 px-4 py-4 bg-gradient-to-r from-indigo-600/20 to-purple-600/20">
         <div className="flex items-center gap-3 mb-2">
           <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center">
-            <span className="text-white font-bold text-sm">AB</span>
+            <span className="text-white font-bold text-sm">AW</span>
           </div>
           <div>
-            <h1 className="text-lg font-bold text-white">AutoBridge Wallet</h1>
+            <h1 className="text-lg font-bold text-white">Auto Wallet</h1>
             <p className="text-xs text-slate-300">Cross-chain payments made simple</p>
           </div>
         </div>

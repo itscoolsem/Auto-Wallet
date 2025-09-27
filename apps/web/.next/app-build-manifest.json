@@ -30,6 +30,16 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/popup/layout.js"
+    ],
+    "/(shell)/chains/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(shell)/chains/page.js"
+    ],
+    "/(shell)/settings/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(shell)/settings/page.js"
     ]
   }
 }

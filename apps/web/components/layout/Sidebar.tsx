@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import type { Route } from 'next';
 import { usePathname } from 'next/navigation';
-import { WalletIcon, Cog6ToothIcon, ArrowPathRoundedSquareIcon, RocketLaunchIcon } from '@heroicons/react/24/outline';
+import { WalletIcon, RocketLaunchIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 
 const nav = [
@@ -17,16 +17,6 @@ const nav = [
     href: '/demo' as Route,
     icon: RocketLaunchIcon,
   },
-  {
-    label: 'Chains',
-    href: '/chains' as Route,
-    icon: ArrowPathRoundedSquareIcon,
-  },
-  {
-    label: 'Settings',
-    href: '/settings' as Route,
-    icon: Cog6ToothIcon,
-  },
 ] as const satisfies Array<{ label: string; href: Route; icon: typeof WalletIcon }>;
 
 export function Sidebar() {
@@ -37,9 +27,9 @@ export function Sidebar() {
       <div>
         <Link href="/" className="flex items-center gap-2">
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/15">
-            <span className="text-lg font-semibold text-primary">AB</span>
+            <span className="text-lg font-semibold text-primary">AW</span>
           </div>
-          <span className="text-lg font-semibold">AutoBridge</span>
+          <span className="text-lg font-semibold">Auto Wallet</span>
         </Link>
         <nav className="mt-10 space-y-2">
           {nav.map((item) => (
@@ -58,11 +48,6 @@ export function Sidebar() {
             </Link>
           ))}
         </nav>
-      </div>
-      <div className="rounded-xl border border-border/80 p-4 text-xs text-slate-400">
-        <p className="font-semibold text-slate-200">Gas vault</p>
-        <p className="mt-1 text-lg font-semibold text-slate-100">2.45 ETH</p>
-        <p className="mt-1">Covers sponsored transactions across all chains.</p>
       </div>
     </aside>
   );

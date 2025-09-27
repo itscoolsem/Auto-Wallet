@@ -1,8 +1,6 @@
 'use client';
 
-import { BalanceSummary } from '../../components/wallet/BalanceSummary';
 import { TokenHoldings } from '../../components/wallet/TokenHoldings';
-import { AAStatusCard } from '../../components/wallet/AAStatusCard';
 import { WalletOnboardingCard } from '../../components/wallet/WalletOnboardingCard';
 import { ActionPanel } from '../../components/actions/ActionPanel';
 import { FundingPanel } from '../../components/wallet/FundingPanel';
@@ -31,11 +29,9 @@ export default function Home() {
       <div className="space-y-6">
         <WalletOnboardingCard />
         <ActionPanel />
-        <BalanceSummary />
         <TokenHoldings />
       </div>
       <div className="space-y-6">
-        <AAStatusCard />
         <FundingPanel
           ownerAddress={smartAccount.owner as Address | undefined}
           smartAccountAddress={(smartAccount.address ?? smartAccount.predictedAddress) as Address | undefined}

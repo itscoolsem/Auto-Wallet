@@ -1,5 +1,7 @@
 {
-  "/(shell)/page": "app/(shell)/page.js",
   "/(shell)/demo/page": "app/(shell)/demo/page.js",
+  "/(shell)/page": "app/(shell)/page.js",
+  "/(shell)/chains/page": "app/(shell)/chains/page.js",
+  "/(shell)/settings/page": "app/(shell)/settings/page.js",
   "/popup/page": "app/popup/page.js"
 }

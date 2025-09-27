@@ -1108,6 +1108,10 @@ video {
 .bg-yellow-500\/5 {
   background-color: rgb(234 179 8 / 0.05);
 }
+.bg-gray-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(75 85 99 / var(--tw-bg-opacity, 1));
+}
 .bg-gradient-to-b {
   background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
 }
@@ -1478,6 +1482,10 @@ video {
   --tw-text-opacity: 1;
   color: rgb(250 204 21 / var(--tw-text-opacity, 1));
 }
+.text-green-400 {
+  --tw-text-opacity: 1;
+  color: rgb(74 222 128 / var(--tw-text-opacity, 1));
+}
 .underline {
   text-decoration-line: underline;
 }
@@ -1591,6 +1599,11 @@ button:focus-visible {
 
 .hover\:border-primary\/60:hover {
   border-color: rgb(47 97 255 / 0.6);
+}
+
+.hover\:border-slate-500:hover {
+  --tw-border-opacity: 1;
+  border-color: rgb(100 116 139 / var(--tw-border-opacity, 1));
 }
 
 .hover\:bg-blue-500\/20:hover {
