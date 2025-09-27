@@ -4,12 +4,10 @@ import { routePlanSchema } from '@autobridge/routing-schema';
 import { buildMockRoutePlan } from '@autobridge/routing-engine';
 import { getToken } from '@autobridge/chains';
 import { AutoBridgeWalletSDK } from '@autobridge/sdk';
-import { createLogger, LogLevel } from '@autobridge/common';
 
 export function buildServer(): FastifyInstance {
   const fastify = Fastify({ logger: false });
   const sdk = new AutoBridgeWalletSDK();
-  const logger = createLogger(LogLevel.INFO);
 
   fastify.register(fastifyCors, {
     origin: '*',
@@ -67,7 +65,7 @@ export function buildServer(): FastifyInstance {
       return { ok: false, error: 'Missing body' };
     }
 
-    logger.info('Processing route quote request', { body });
+    // Processing route quote request
 
     try {
       const plan = buildMockRoutePlan({

@@ -35,7 +35,7 @@ describe('buildMockRoutePlan', () => {
   });
 
   it('handles negative amount gracefully', () => {
-    expect(() => buildMockRoutePlan({ ...request, amountIn: '-1' })).toThrowError(/Amount must be positive/);
+    expect(() => buildMockRoutePlan({ ...request, amountIn: '-1' })).toThrowError(/Invalid amount/);
   });
 
   it('converts between different token decimals', () => {
