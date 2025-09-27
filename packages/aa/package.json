@@ -1,0 +1,18 @@
+{
+  "name": "@autobridge/aa",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@autobridge/chains": "^0.1.0",
+    "@autobridge/common": "^0.1.0",
+    "viem": "^2.15.1",
+    "zod": "^3.23.8"
+  }
+}
