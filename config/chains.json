@@ -1,0 +1,56 @@
+{
+  "base-sepolia": {
+    "chainId": 84532,
+    "name": "Base Sepolia",
+    "rpcEnv": "BASE_SEPOLIA_RPC",
+    "nativeCurrency": {
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "erc4337": {
+      "bundlerEnv": "BASE_BUNDLER_URL",
+      "paymasterEnv": "PAYMASTER_ADDRESS",
+      "walletExecutorEnv": "WALLET_EXECUTOR_ADDRESS",
+      "entryPoint": "0x5ff137d4b0fdcd49dca30c7cf57e578a026d2789"
+    },
+    "layerZero": {
+      "endpointEnv": "LZ_BASE_SEPOLIA_ENDPOINT"
+    }
+  },
+  "optimism-sepolia": {
+    "chainId": 11155420,
+    "name": "Optimism Sepolia",
+    "rpcEnv": "OPTIMISM_SEPOLIA_RPC",
+    "nativeCurrency": {
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "erc4337": {
+      "bundlerEnv": "OPTIMISM_BUNDLER_URL",
+      "paymasterEnv": "PAYMASTER_ADDRESS",
+      "walletExecutorEnv": "WALLET_EXECUTOR_ADDRESS",
+      "entryPoint": "0x5ff137d4b0fdcd49dca30c7cf57e578a026d2789"
+    },
+    "layerZero": {
+      "endpointEnv": "LZ_OPTIMISM_SEPOLIA_ENDPOINT"
+    }
+  },
+  "arbitrum-sepolia": {
+    "chainId": 421614,
+    "name": "Arbitrum Sepolia",
+    "rpcEnv": "ARBITRUM_SEPOLIA_RPC",
+    "nativeCurrency": {
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "erc4337": {
+      "bundlerEnv": "ARBITRUM_BUNDLER_URL",
+      "paymasterEnv": "PAYMASTER_ADDRESS",
+      "walletExecutorEnv": "WALLET_EXECUTOR_ADDRESS",
+      "entryPoint": "0x5ff137d4b0fdcd49dca30c7cf57e578a026d2789"
+    },
+    "layerZero": {
+      "endpointEnv": "LZ_ARBITRUM_SEPOLIA_ENDPOINT"
+    }
+  }
+}

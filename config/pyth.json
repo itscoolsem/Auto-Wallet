@@ -1,0 +1,9 @@
+{
+  "endpointEnv": "PYTH_ENDPOINT",
+  "feeds": {
+    "WETH": "PYTH_WETH_PRICE_ID",
+    "USDC": "PYTH_USDC_PRICE_ID",
+    "PLAY": "PYTH_PLAY_PRICE_ID",
+    "USDX": "PYTH_USDX_PRICE_ID"
+  }
+}
