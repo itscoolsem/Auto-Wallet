@@ -1,4 +1,4 @@
-// File: /home/sumit/projects/autowallet/apps/web/app/(shell)/layout.tsx
+// File: /home/sumit/projects/autowalletrepo/apps/web/app/(shell)/layout.tsx
 import * as entry from '../../../../app/(shell)/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
