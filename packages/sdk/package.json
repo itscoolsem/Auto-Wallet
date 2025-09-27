@@ -1,0 +1,20 @@
+{
+  "name": "@autobridge/sdk",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@autobridge/aa": "^0.1.0",
+    "@autobridge/chains": "^0.1.0",
+    "@autobridge/common": "^0.1.0",
+    "@autobridge/routing-engine": "^0.1.0",
+    "@autobridge/routing-schema": "^0.1.0",
+    "zod": "^3.23.8"
+  }
+}
