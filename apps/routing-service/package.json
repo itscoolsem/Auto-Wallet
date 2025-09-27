@@ -1,0 +1,22 @@
+{
+  "name": "@autobridge/routing-service",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/server.js",
+  "types": "dist/server.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "start": "node dist/server.js",
+    "dev": "npm run build && npm run start"
+  },
+  "dependencies": {
+    "@autobridge/common": "^0.1.0",
+    "@autobridge/routing-engine": "^0.1.0",
+    "@autobridge/routing-schema": "^0.1.0",
+    "@autobridge/sdk": "^0.1.0",
+    "fastify": "^4.28.1",
+    "@fastify/cors": "^8.4.0"
+  }
+}
