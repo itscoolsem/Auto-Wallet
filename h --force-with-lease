@@ -1,0 +1,30 @@
+* [33mdc30f71[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m chore: add engine requirements to package.json
+* [33m16a06e2[m chore: add Node.js version specification
+* [33me642fe0[m feat: add optional timeout and retry config to bundler
+* [33me83f349[m perf: add caching to Pyth price fetching
+* [33m0291caf[m feat: enhance health endpoint with more information
+* [33mb3f9705[m chore: export performance utilities from common
+* [33m1fbc5a7[m feat: add performance monitoring utilities
+* [33m9f7dceb[m chore: add scripts to package.json
+* [33m1f8287a[m fix: add upper bound validation for amounts
+* [33m09de5e8[m feat: add environment variables checker script
+* [33m525f053[m security: increase PBKDF2 iterations for wallet encryption
+* [33m4e90ffa[m feat: extend ActivityItem with transaction details
+* [33m277647b[m chore: export error classes from common package
+* [33md51d545[m feat: add structured error classes
+* [33m93546f2[m fix: add timeout and client header to SDK requests
+* [33m462a10b[m feat: extend QuoteContext with routing preferences
+* [33ma1c6d6d[m chore: export cache and validation from common package
+* [33mfbb92dc[m feat: add common validation utilities
+* [33m918e479[m feat: add development tools script
+* [33mc903f67[m fix: improve Pyth API request reliability
+* [33m4992a9a[m chore: export gasEstimator and abis from AA package
+* [33m53b7b1a[m feat: add minimum values and route optimization constants
+* [33m448ce20[m feat: add in-memory cache with TTL
+* [33mde390ba[m chore: enable stricter TypeScript checks
+* [33m6b5d9ac[m feat: add ENS reverse resolution
+* [33m6d60e9b[m feat: add gas estimation utilities
+* [33mf501187[m chore: improve gitignore patterns
+* [33mfd4188a[m feat: add timeout support to bundler client
+* [33m7a0eeee[m chore: export new utilities from common package
+* [33mf151d3d[m feat: add common utility functions
